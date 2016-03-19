@@ -28,6 +28,7 @@ public class DbActivity extends BaseActivity implements View.OnClickListener {
 	private RecyclerView mRvDbList;
 	private DbHistoryAdapter mHistoryAdapter;
 	private List<DbModel> mHistoryData;
+	private View mVEmptyAddDb;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class DbActivity extends BaseActivity implements View.OnClickListener {
 		setContentView(R.layout.activity_db);
 		mIvAddDb = findView(R.id.iv_right);
 		mRvDbList = findView(R.id.list_db);
+		mVEmptyAddDb = findView(R.id.iv_add_db);
 		mRvDbList.setLayoutManager(new LinearLayoutManager(this));
 		mIvAddDb.setVisibility(View.VISIBLE);
 		mIvAddDb.setImageResource(R.drawable.ic_add_db);
@@ -51,6 +53,7 @@ public class DbActivity extends BaseActivity implements View.OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.iv_right:
+		case R.id.iv_add_db:
 			performPickDb();
 			break;
 		}
@@ -82,6 +85,7 @@ public class DbActivity extends BaseActivity implements View.OnClickListener {
 		protected void onPostExecute(List<DbModel> result) {
 			super.onPostExecute(result);
 			if (result != null) {
+				mVEmptyAddDb.setVisibility(View.GONE);
 				if(mHistoryAdapter == null){
 					mHistoryData = new ArrayList<DbModel>();
 					mHistoryData.addAll(result);
@@ -92,6 +96,9 @@ public class DbActivity extends BaseActivity implements View.OnClickListener {
 					mHistoryData.addAll(result);
 					mHistoryAdapter.notifyDataSetChanged();
 				}
+			}else{
+				mVEmptyAddDb.setVisibility(View.VISIBLE);
+				mVEmptyAddDb.setOnClickListener(DbActivity.this);
 			}
 		}
 	}

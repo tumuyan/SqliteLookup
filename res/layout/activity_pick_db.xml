@@ -14,4 +14,14 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
     
+    <TextView 
+        android:id="@+id/tv_empty_db"
+        android:layout_below="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/disable_color"
+        android:text="@string/empty_db_dir"
+        android:visibility="gone"
+        android:textSize="16dp"/>
 </RelativeLayout>

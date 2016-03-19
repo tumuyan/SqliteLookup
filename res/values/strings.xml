@@ -10,4 +10,6 @@
     <string name="table_design">Table Design</string>
     <string name="pick_db">Pick A Database</string>
     <string name="record_detail">Record Detail</string>
+    <string name="empty_db_dir">No Sqlite Database Found!</string>
+    <string name="open">open database</string>
 </resources>

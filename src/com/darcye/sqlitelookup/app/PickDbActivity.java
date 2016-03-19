@@ -33,6 +33,7 @@ public class PickDbActivity extends BaseActivity implements View.OnClickListener
 	private static final String SD_ROOT = Environment.getExternalStorageDirectory().getPath();
 	
 	private ImageView mIvBack;
+	private TextView mTvEmptyDb;
 	private RecyclerView mRvFileList;
 	private FileListAdapter mFileListAdapter;
 	private List<File> mFileList = new ArrayList<File>();
@@ -53,6 +54,7 @@ public class PickDbActivity extends BaseActivity implements View.OnClickListener
 		mIvBack = findView(R.id.iv_back);
 		mIvBack.setVisibility(View.VISIBLE);
 		mRvFileList = findView(R.id.list_files);
+		mTvEmptyDb = findView(R.id.tv_empty_db);
 		mIvBack.setOnClickListener(this);
 		mRvFileList.setLayoutManager(new LinearLayoutManager(this));
 		listFiles(SD_ROOT);
@@ -64,6 +66,16 @@ public class PickDbActivity extends BaseActivity implements View.OnClickListener
 		case R.id.iv_back:
 			performBack();
 			break;
+		}
+	}
+	
+	@Override
+	public void onBackPressed() {
+		if(mLastPath == null || mLastPath.equals(SD_ROOT)){
+			super.onBackPressed();
+		}else{
+			File parentDir = new File(mLastPath).getParentFile();
+			listFiles(parentDir.getAbsolutePath());
 		}
 	}
 	
@@ -125,7 +137,10 @@ public class PickDbActivity extends BaseActivity implements View.OnClickListener
 			super.onPostExecute(result);
 			mFileList.clear();
 			if(result != null && result.length != 0){
+				mTvEmptyDb.setVisibility(View.GONE);
 				mFileList.addAll(Arrays.asList(result));
+			}else{
+				mTvEmptyDb.setVisibility(View.VISIBLE);
 			}
 			
 			if(mFileListAdapter == null){
