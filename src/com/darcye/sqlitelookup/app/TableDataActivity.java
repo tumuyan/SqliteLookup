@@ -3,6 +3,7 @@ package com.darcye.sqlitelookup.app;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
@@ -57,6 +58,8 @@ public class TableDataActivity extends BaseActivity implements View.OnClickListe
 	private SelectorDialog mDlgSelector;
 	private static final String[] SELECT_ITEMS = {"CHECK RECORD DETAIL"};
 	
+	private ProgressDialog mDlgLoading;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -78,6 +81,10 @@ public class TableDataActivity extends BaseActivity implements View.OnClickListe
 		setMainTitle(String.format("Data In %s", mTableName));
 		mDlgSelector = new SelectorDialog(this);
 		mDlgSelector.setSelectItems(SELECT_ITEMS, this);
+		mDlgLoading = new ProgressDialog(this,ProgressDialog.STYLE_SPINNER);
+		mDlgLoading.setMessage(getString(R.string.loading));
+		mDlgLoading.setCancelable(false);
+		mDlgLoading.setCanceledOnTouchOutside(false);
 		listTableData();
 	}
 	
@@ -143,6 +150,12 @@ public class TableDataActivity extends BaseActivity implements View.OnClickListe
 	class QuerySqlTask extends AsyncTask<String, SQLException, List<ResultSet>>{
 
 		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mDlgLoading.show();
+		}
+		
+		@Override
 		protected List<ResultSet> doInBackground(String... params) {
 			String querySql = params[0];
 			SQLiteDatabase db = SQLiteDatabase.openDatabase(mDbPath, null,  SQLiteDatabase.OPEN_READONLY);
@@ -180,6 +193,7 @@ public class TableDataActivity extends BaseActivity implements View.OnClickListe
 		}
 		
 		protected void onPostExecute(List<ResultSet> result) {
+			mDlgLoading.hide();
 			if(result != null){
 				mTableData.clear();
 				mTableData.addAll(result);
@@ -191,6 +205,12 @@ public class TableDataActivity extends BaseActivity implements View.OnClickListe
 	
 	class GetTableDataTask extends AsyncTask<Void, Void, List<ResultSet>>{
 
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mDlgLoading.show();
+		}
+		
 		@Override
 		protected List<ResultSet> doInBackground(Void... params) {
 			SQLiteDatabase db = SQLiteDatabase.openDatabase(mDbPath, null,  SQLiteDatabase.OPEN_READONLY);
@@ -212,6 +232,8 @@ public class TableDataActivity extends BaseActivity implements View.OnClickListe
 		@Override
 		protected void onPostExecute(List<ResultSet> result) {
 			super.onPostExecute(result);
+			mDlgLoading.hide();
+			
 			if(mTableDataAdapter == null){
 				if(result != null){
 					mTableData = new ArrayList<ResultSet>();

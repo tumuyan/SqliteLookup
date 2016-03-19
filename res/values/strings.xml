@@ -12,4 +12,5 @@
     <string name="record_detail">Record Detail</string>
     <string name="empty_db_dir">No Sqlite Database Found!</string>
     <string name="open">open database</string>
+    <string name="loading">loading</string>
 </resources>
