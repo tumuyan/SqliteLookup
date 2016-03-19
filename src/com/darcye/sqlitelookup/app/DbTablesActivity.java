@@ -1,5 +1,6 @@
 package com.darcye.sqlitelookup.app;
 
+import java.io.File;
 import java.util.List;
 
 import android.content.Context;
@@ -10,16 +11,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.darcye.sqlite.DaoFactory;
 import com.darcye.sqlite.DbSqlite;
 import com.darcye.sqlite.IBaseDao;
 import com.darcye.sqlitelookup.R;
 import com.darcye.sqlitelookup.adapter.SimpleListAdapter;
-import com.darcye.sqlitelookup.dialog.SimpleSelectDialog;
-import com.darcye.sqlitelookup.dialog.SimpleSelectDialog.OnItemSelectedListener;
+import com.darcye.sqlitelookup.dialog.SelectorDialog;
+import com.darcye.sqlitelookup.dialog.SelectorDialog.OnItemSelectedListener;
 import com.darcye.sqlitelookup.model.SqliteMaster;
 
 /**
@@ -27,18 +26,16 @@ import com.darcye.sqlitelookup.model.SqliteMaster;
  * @author Darcy
  *
  */
-public class DbTablesActivity extends BaseActivity implements View.OnClickListener ,OnItemSelectedListener{
+public class DbTablesActivity extends BaseActivity implements OnItemSelectedListener{
 	
 	public static final String EXTRA_DB_PATH = "db-path";
 	
 	private static final String[] SELECT_ITEMS = {"Table Design","Table Data"};
 	
-	private ImageView mIvBack;
-	private TextView mTvTitle;
 	private RecyclerView mRvTableList;
 	private TableListAdapter mTableListAdapter;
 	
-	private SimpleSelectDialog mDlgSelect;
+	private SelectorDialog mDlgSelect;
 	private String mSelectTable;
 	
 	private String mDbPath;
@@ -47,14 +44,14 @@ public class DbTablesActivity extends BaseActivity implements View.OnClickListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_db_tables);
-		mIvBack = findView(R.id.iv_back);
-		mTvTitle = findView(R.id.tv_title);
 		mRvTableList = findView(R.id.list_db_tables);
-		mIvBack.setOnClickListener(this);
 		mRvTableList.setLayoutManager(new LinearLayoutManager(this));
 		mDbPath = getIntent().getStringExtra(EXTRA_DB_PATH);
-		mDlgSelect = new SimpleSelectDialog(this);
+		mDlgSelect = new SelectorDialog(this);
 		mDlgSelect.setSelectItems(SELECT_ITEMS, this);
+		enableBack();
+		File dbFile = new File(mDbPath);
+		setMainTitle(String.format("Tables In %s", dbFile.getName()));
 		listTables();
 	}
 
@@ -79,11 +76,6 @@ public class DbTablesActivity extends BaseActivity implements View.OnClickListen
 		dataIntent.putExtra(TableDataActivity.EXTRA_DB_PATH, mDbPath);
 		dataIntent.putExtra(TableDataActivity.EXTRA_TABLE_NAME, tableName);
 		startActivity(dataIntent);
-	}
-	
-	@Override
-	public void onClick(View v) {
-		
 	}
 	
 	private void listTables(){

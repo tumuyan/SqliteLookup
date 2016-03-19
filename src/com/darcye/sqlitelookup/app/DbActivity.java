@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.darcye.sqlite.DaoFactory;
@@ -25,7 +24,6 @@ import com.darcye.sqlitelookup.model.DbModel;
 
 public class DbActivity extends BaseActivity implements View.OnClickListener {
 
-	private TextView mTvTitle;
 	private ImageView mIvAddDb;
 	private RecyclerView mRvDbList;
 	private DbHistoryAdapter mHistoryAdapter;
@@ -35,7 +33,6 @@ public class DbActivity extends BaseActivity implements View.OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_db);
-		mTvTitle = findView(R.id.tv_title);
 		mIvAddDb = findView(R.id.iv_right);
 		mRvDbList = findView(R.id.list_db);
 		mRvDbList.setLayoutManager(new LinearLayoutManager(this));

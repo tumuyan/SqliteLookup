@@ -33,7 +33,6 @@ public class PickDbActivity extends BaseActivity implements View.OnClickListener
 	private static final String SD_ROOT = Environment.getExternalStorageDirectory().getPath();
 	
 	private ImageView mIvBack;
-	private TextView mTvTitle;
 	private RecyclerView mRvFileList;
 	private FileListAdapter mFileListAdapter;
 	private List<File> mFileList = new ArrayList<File>();
@@ -50,8 +49,8 @@ public class PickDbActivity extends BaseActivity implements View.OnClickListener
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pick_db);
+		setMainTitle(R.string.pick_db);
 		mIvBack = findView(R.id.iv_back);
-		mTvTitle = findView(R.id.tv_title);
 		mRvFileList = findView(R.id.list_files);
 		mIvBack.setOnClickListener(this);
 		mRvFileList.setLayoutManager(new LinearLayoutManager(this));

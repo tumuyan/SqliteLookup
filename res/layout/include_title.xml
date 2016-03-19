@@ -10,6 +10,7 @@
         android:layout_height="25dp"
         android:layout_marginRight="5dp"
         android:layout_centerVertical="true"
+        android:visibility="gone"
         android:src="@drawable/ic_back"/>
     
     <TextView

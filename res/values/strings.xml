@@ -7,4 +7,7 @@
 	
     <string name="execute_sql">execute</string>
     <string name="db_remove_error">your db file seems removed!</string>
+    <string name="table_design">Table Design</string>
+    <string name="pick_db">Pick A Database</string>
+    <string name="record_detail">Record Detail</string>
 </resources>

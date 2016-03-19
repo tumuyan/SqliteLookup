@@ -14,12 +14,12 @@ import android.widget.TextView;
 import com.darcye.sqlitelookup.R;
 import com.darcye.sqlitelookup.utils.AppUtils;
 
-public class SimpleSelectDialog extends Dialog{
+public class SelectorDialog extends Dialog{
 
 	private ListView mLvSelect;
 	private OnItemSelectedListener mSelectListener;
 	
-	public SimpleSelectDialog(Activity activity) {
+	public SelectorDialog(Activity activity) {
 		super(activity, R.style.FullScreenDialog);
 		setContentView(R.layout.dlg_select);
 		mLvSelect = (ListView)findViewById(R.id.list_choose);

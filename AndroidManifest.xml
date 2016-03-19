@@ -30,6 +30,8 @@
       <activity android:name="com.darcye.sqlitelookup.app.DbTablesActivity"></activity>
       <activity android:name="com.darcye.sqlitelookup.app.TableDesignActivity"></activity>
       <activity android:name="com.darcye.sqlitelookup.app.TableDataActivity"></activity>
+      <activity android:name="com.darcye.sqlitelookup.app.RecordDetailActivity"></activity>
+      
     </application>
 
 </manifest>

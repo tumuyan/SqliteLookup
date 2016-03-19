@@ -9,7 +9,7 @@
     
     <color name="listitem_normal_color">#EEE8AA</color>
     <color name="listitem_pressed_color">#F0E68C</color>
-    <color name="listitem_line_color">#F0E68C</color>
+    <color name="listitem_line_color">#CDCDB4</color>
     
     <color name="table_header_bg_color">#FFA54F</color>
     <color name="table_header_line_color">#FFFFFF</color>

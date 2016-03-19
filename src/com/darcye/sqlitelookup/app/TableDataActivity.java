@@ -24,13 +24,15 @@ import com.darcye.sqlite.ResultSet;
 import com.darcye.sqlite.Table.Column;
 import com.darcye.sqlitelookup.R;
 import com.darcye.sqlitelookup.adapter.SimpleTableAdapter;
+import com.darcye.sqlitelookup.dialog.SelectorDialog;
+import com.darcye.sqlitelookup.dialog.SelectorDialog.OnItemSelectedListener;
 import com.darcye.sqlitelookup.model.ColumnInfo;
 import com.darcye.sqlitelookup.model.SqliteMaster;
 import com.darcye.sqlitelookup.utils.AppUtils;
 import com.darcye.sqlitelookup.utils.SqlUtils;
 import com.inqbarna.tablefixheaders.TableFixHeaders;
 
-public class TableDataActivity extends BaseActivity implements View.OnClickListener{
+public class TableDataActivity extends BaseActivity implements View.OnClickListener , OnItemSelectedListener{
 
 	public static final String EXTRA_TABLE_NAME = "table-name";
 	public static final String EXTRA_DB_PATH = "db-path";
@@ -51,6 +53,10 @@ public class TableDataActivity extends BaseActivity implements View.OnClickListe
 	private int mPage = 1;
 	private String mOrderBy;
 	
+	private ResultSet mSelectedRecord;
+	private SelectorDialog mDlgSelector;
+	private static final String[] SELECT_ITEMS = {"CHECK RECORD DETAIL"};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,7 +74,20 @@ public class TableDataActivity extends BaseActivity implements View.OnClickListe
 		mBtnQuery = findView(R.id.btn_execute_sql);
 		mBtnQuery.setOnClickListener(this);
 		mTvError = findView(R.id.tv_sql_error);
+		enableBack();
+		setMainTitle(String.format("Data In %s", mTableName));
+		mDlgSelector = new SelectorDialog(this);
+		mDlgSelector.setSelectItems(SELECT_ITEMS, this);
 		listTableData();
+	}
+	
+	@Override
+	public void onSelected(int position) {
+		if(position == 0){
+			Intent detailIntent = new Intent(this,RecordDetailActivity.class);
+			detailIntent.putExtra(RecordDetailActivity.EXTRA_RECORD, mSelectedRecord);
+			startActivity(detailIntent);
+		}
 	}
 	
 	@Override
@@ -254,7 +273,7 @@ public class TableDataActivity extends BaseActivity implements View.OnClickListe
 
 		@Override
 		public void bindCellText(TextView tvCell, int row, int column,
-				ResultSet cRecord) {
+				final ResultSet cRecord) {
 			Object cellValue = cRecord.getValue(column+1);
 			if(cellValue != null){
 				String cellStr = cellValue.toString();
@@ -266,8 +285,15 @@ public class TableDataActivity extends BaseActivity implements View.OnClickListe
 			}else{
 				tvCell.setText("(null)");
 			}
+			
+			tvCell.setOnLongClickListener(new View.OnLongClickListener() {
+				@Override
+				public boolean onLongClick(View v) {
+					mSelectedRecord = cRecord;
+					mDlgSelector.show();
+					return true;
+				}
+			});
 		}
-		
 	}
-	
 }

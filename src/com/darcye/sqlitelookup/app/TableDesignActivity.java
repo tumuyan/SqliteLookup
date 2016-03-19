@@ -6,13 +6,10 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +23,6 @@ import com.darcye.sqlitelookup.model.SqliteMaster;
 import com.darcye.sqlitelookup.utils.AppUtils;
 import com.darcye.sqlitelookup.utils.SqlUtils;
 import com.inqbarna.tablefixheaders.TableFixHeaders;
-import com.inqbarna.tablefixheaders.adapters.BaseTableAdapter;
 
 public class TableDesignActivity extends BaseActivity implements View.OnClickListener{
 
@@ -65,6 +61,8 @@ public class TableDesignActivity extends BaseActivity implements View.OnClickLis
 		Intent extraIntent = getIntent();
 		mTableName = extraIntent.getStringExtra(EXTRA_TABLE_NAME);
 		mDbPath = extraIntent.getStringExtra(EXTRA_DB_PATH);
+		setMainTitle(String.format("Table Design of %s", mTableName));
+		enableBack();
 		listTableDesign();
 	}
 	
