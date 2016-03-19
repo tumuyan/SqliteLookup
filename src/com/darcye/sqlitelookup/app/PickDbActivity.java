@@ -51,6 +51,7 @@ public class PickDbActivity extends BaseActivity implements View.OnClickListener
 		setContentView(R.layout.activity_pick_db);
 		setMainTitle(R.string.pick_db);
 		mIvBack = findView(R.id.iv_back);
+		mIvBack.setVisibility(View.VISIBLE);
 		mRvFileList = findView(R.id.list_files);
 		mIvBack.setOnClickListener(this);
 		mRvFileList.setLayoutManager(new LinearLayoutManager(this));
