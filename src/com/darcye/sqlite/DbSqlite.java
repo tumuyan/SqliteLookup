@@ -347,10 +347,10 @@ public class DbSqlite {
 					columnVal = cursor.getBlob(index);
 					break;
 				case Cursor.FIELD_TYPE_FLOAT:
-					columnVal = cursor.getFloat(index);
+					columnVal = cursor.getDouble(index);
 					break;
 				case Cursor.FIELD_TYPE_INTEGER:
-					columnVal = cursor.getInt(index);
+					columnVal = cursor.getLong(index);
 					break;
 				case Cursor.FIELD_TYPE_NULL:
 					columnVal = null;
